@@ -1,20 +1,24 @@
-
 ## 1.安装环境
+
 ```
 npm init -y --一步到位配置
 ```
 
-安装webpack
+安装 webpack
+
 ```
 npm install webpack webpack-cli --save-dev
 
 ```
+
 本项目中查看安装版本
+
 ```
 ./node_modules/.bin/webpack -v
 ```
 
-## 2. 手写一个webpack配置 webpack.config.js
+## 2. 手写一个 webpack 配置 webpack.config.js
+
 ```
 const path = require('path')
 
@@ -29,11 +33,12 @@ module.exports = {
 
 ```
 
-## 3. 通过npm script 运行webpack
+## 3. 通过 npm script 运行 webpack
 
 原理：模块局部安装会在 node_modules/.bin 目录创建软连接
 
-package.json会默认读取到bin下的命令 ,所以下面script中会执行
+package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执行
+
 ```
 {
   "name": "webpackDemo",
@@ -53,3 +58,55 @@ package.json会默认读取到bin下的命令 ,所以下面script中会执行
 }
 
 ```
+
+## 4. webpack 基础用法
+
+1.  了解 entry、output 的单文件和多文件用法
+
+2.  核心概念 loaders
+    webpack 开箱即用只支持 js 和 json 两种文件，通过 loaders 来支持其他文件类型的模块转化
+    loaders 本身是一个函数，接收源文件作为参数，返回转化的结果
+
+    ```
+    module:{
+      rules:[
+      {test:/\.txt$/,use:'xxx-loader'}
+    ]}
+    ```
+
+        常见的Loaders有哪些?
+
+        babel-loader转换ES6、ES7等JS新特性语法
+        css-loader 支持.css 文件的加载和解析
+        less-loader 将 less 文件转换成 css
+        ts-loader 将 TS 转换成 JS
+        file-loader 进行图片、字体等的打包
+        raw-loader 将文件以字符串的形式导入
+        thread-loader 多进程打包 JS 和 cSs
+
+3.  核心概念 plugins --增强 webpack 功能
+    用于 bundle 打包文件的优化，资源管理和环境变量注入，作用于整个构建过程
+
+    ```
+    plugins:[
+        new HtmlWebpackPlugin(....)
+    ]
+    ```
+
+        常见的 Plugins 有哪些?
+
+        CommonsChunkPlugin    将 chunks 相同的模块代码提取成公共 js
+        CleanWebpackPlugin    清理构建目录
+        ExtractTextWebpackPlugin 将 cSS 从 bunlde 文件里提取成    个独立的 cSs    文件
+        CopyWebpackPlugin    将文件或者文件夹拷贝到构建的输出目录
+        HtmlWebpackPlugin    创建 html 文件去承载输出的 bundle
+        uglifyjsWebpackPlugin    压缩 JS
+        zipWebpackPlugin    将打包出的资源生成一个 zip 包
+
+4. 核心概念 mode    --指定当前构建环境 production、development、none 默认pro
+
+        内置函数功能
+
+        1). development
+        设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin .production 设置process.env.NODE_ENV的值为2). production .开启FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin和TerserPlugin .
+        3). none    不开启任何优化选项
