@@ -28,3 +28,28 @@ module.exports = {
 }
 
 ```
+
+## 3. 通过npm script 运行webpack
+
+原理：模块局部安装会在 node_modules/.bin 目录创建软连接
+
+package.json会默认读取到bin下的命令 ,所以下面script中会执行
+```
+{
+  "name": "webpackDemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build":"webpack",
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  }
+}
+
+```
