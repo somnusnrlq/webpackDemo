@@ -103,10 +103,57 @@ package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执�
         uglifyjsWebpackPlugin    压缩 JS
         zipWebpackPlugin    将打包出的资源生成一个 zip 包
 
-4. 核心概念 mode    --指定当前构建环境 production、development、none 默认pro
+4.  核心概念 mode --指定当前构建环境 production、development、none 默认 pro
 
         内置函数功能
 
         1). development
-        设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin .production 设置process.env.NODE_ENV的值为2). production .开启FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin和TerserPlugin .
+        设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin
+        2). production 设置process.env.NODE_ENV的值为production .开启FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin和TerserPlugin .
         3). none    不开启任何优化选项
+
+## 5. 资源解析
+
+    1. 解析es6   使用babel-loader    babel的配置文件是 .babelrc
+
+    .babelrc 代码说明如下:
+    ```
+        // presets 是一系列babel plugins的配置集合  一个plugins对应一个功能
+        {
+        "presets": [
+            '@babel/preset-env'  --增加es6的babel preset配置
+        ],
+        "plugins":[
+            "@babel/proposal-class-properties"
+        ]
+        }
+
+    ```
+    那么我们解析es6只安装配置 @babel/preset-env就可以了 ,代码如下
+
+    ```
+    npm i @babel/core @babel/preset-env' babel-loader -D
+    ```
+    安装完成之后需要到webpack.config.js中添加 babel-loader 的配置
+
+    ```
+     module:{
+        rules:[
+           {test:/.js$/,use:'babel-loader'}
+       ]
+
+}
+```
+
+2. 解析其他资源 比如vue
+
+
+ ```
+
+{
+presets: [
+'@vue/app',
+'@vue/cli-plugin-babel/preset' --这个是脚手架最新的
+]
+}
+```
