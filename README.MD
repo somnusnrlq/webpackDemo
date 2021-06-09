@@ -1,4 +1,16 @@
-## 1.安装环境
+webpack知识点总结
+
+## 1.安装环境 
+
+下载并安装nodejs，如果需要nodejs版本管理则需要安装nvm进行控制
+安装检查
+
+```
+node -v  查看node安装版本
+npm -v   查看npm安装版本(安装node自带)
+nvm -list 查看安装的各种版本nodejs
+```
+### 项目初始化
 
 ```
 npm init -y --一步到位配置
@@ -132,7 +144,7 @@ none 不开启任何优化选项
 
 ## 5. 资源解析
 
-1. 解析 es6 使用 babel-loader babel 的配置文件是 .babelrc
+### 1. 解析 es6 使用 babel-loader babel 的配置文件是 .babelrc
 
 .babelrc 代码说明如下:
 
@@ -155,19 +167,17 @@ none 不开启任何优化选项
 npm i @babel/core @babel/preset-env' babel-loader -D
 ```
 
-安装完成之后需要到 webpack.config.js 中添加 babel-loader 的配置
-
+webpack.config.js 中添加 js 规则解析配置
 ```
   module:{
     rules:[
         {test:/.js$/,use:'babel-loader'}
     ]
-
-}
+  }
 
 ```
 
-2.  解析其他资源 比如 vue
+### 2. 解析其他资源 比如 vue
 
 ```
 
@@ -179,14 +189,65 @@ npm i @babel/core @babel/preset-env' babel-loader -D
 }
 ```
 
-3.  解析样式 css、less、sass
+### 3. 解析样式 css、less
 
-    安装 css-loader、style-loader
-
-    css-loader 用于加载.css 文件，并转化成 commonjs 对象
-
-    style-loader 将样式通过 <style> 标签 插入到 head 中
+1. 安装 css-loader、style-loader
 
 ```
+npm i style-loader css-loader -D
+```
 
+css-loader 用于加载.css 文件，并转化成 commonjs 对象
+style-loader 将样式通过 <style> 标签 插入到 head 中
+
+webpack.config.js 中添加 css 规则解析配置
+
+```
+module:{
+    rules:[
+        {test:/\.css$/,use:['style-loader','css-loader']}
+    ]
+  }
+```
+
+2. 安装 less-loader 将 less 解析成 css
+
+```
+npm i less less-loader -D
+```
+
+webpack.config.js 中添加 less 规则解析配置
+
+```
+module:{
+    rules:[
+        {test:/\.less$/,use:['style-loader','css-loader','less-loader']}
+    ]
+  }
+```
+
+### 4. 解析图片、字体
+
+1.安装 file-loader 来解析文件
+
+```
+  npm i file-loader -D
+```
+
+webpack.config.js 中添加 图片 规则解析配置
+
+```
+module:{
+    rules:[
+        {test:/\.(png|svg|jpg|gif)$/,use:'file-loader'}
+    ]
+  }
+```
+也可以解析字体
+```
+module:{
+    rules:[
+        {test:/\.(woff|woff2|eot|ttf|otf)$/,use:'file-loader'}
+    ]
+  }
 ```
