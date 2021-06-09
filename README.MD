@@ -77,11 +77,17 @@ package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执�
         常见的Loaders有哪些?
 
         babel-loader转换ES6、ES7等JS新特性语法
+
         css-loader 支持.css 文件的加载和解析
+        
         less-loader 将 less 文件转换成 css
+
         ts-loader 将 TS 转换成 JS
+
         file-loader 进行图片、字体等的打包
+
         raw-loader 将文件以字符串的形式导入
+        
         thread-loader 多进程打包 JS 和 cSs
 
 3.  核心概念 plugins --增强 webpack 功能
@@ -96,21 +102,28 @@ package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执�
         常见的 Plugins 有哪些?
 
         CommonsChunkPlugin    将 chunks 相同的模块代码提取成公共 js
+
         CleanWebpackPlugin    清理构建目录
-        ExtractTextWebpackPlugin 将 cSS 从 bunlde 文件里提取成    个独立的 cSs    文件
+
+        ExtractTextWebpackPlugin 将css从 bunlde 文件里提取成一个个个独立的css文件
+
         CopyWebpackPlugin    将文件或者文件夹拷贝到构建的输出目录
+
         HtmlWebpackPlugin    创建 html 文件去承载输出的 bundle
+
         uglifyjsWebpackPlugin    压缩 JS
+
         zipWebpackPlugin    将打包出的资源生成一个 zip 包
 
 4.  核心概念 mode --指定当前构建环境 production、development、none 默认 pro
 
         内置函数功能
 
-        1). development
-        设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin
+        1). development 设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin
+        
         2). production 设置process.env.NODE_ENV的值为production .开启FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin和TerserPlugin .
-        3). none    不开启任何优化选项
+
+        3). none 不开启任何优化选项
 
 ## 5. 资源解析
 
@@ -145,15 +158,23 @@ package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执�
 }
 ```
 
-2. 解析其他资源 比如vue
+    2. 解析其他资源 比如vue
 
 
- ```
+    ```
 
-{
-presets: [
-'@vue/app',
-'@vue/cli-plugin-babel/preset' --这个是脚手架最新的
-]
-}
-```
+    {
+    presets: [
+    '@vue/app',
+    '@vue/cli-plugin-babel/preset' --这个是脚手架最新的
+    ]
+    }
+    ```
+
+    3. 解析样式css、less、sass
+
+    安装css-loader、style-loader
+
+    css-loader用于加载.css文件，并转化成commonjs对象
+
+    style-loader将样式通过 <style> 标签 插入到head中
