@@ -74,107 +74,119 @@ package.json 会默认读取到 bin 下的命令 ,所以下面 script 中会执�
     ]}
     ```
 
-        常见的Loaders有哪些?
+常见的 Loaders 有哪些?
 
-        babel-loader转换ES6、ES7等JS新特性语法
+```
+  babel-loader转换ES6、ES7等JS新特性语法
 
-        css-loader 支持.css 文件的加载和解析
-        
-        less-loader 将 less 文件转换成 css
+  css-loader 支持.css 文件的加载和解析
 
-        ts-loader 将 TS 转换成 JS
+  less-loader 将 less 文件转换成 css
 
-        file-loader 进行图片、字体等的打包
+  ts-loader 将 TS 转换成 JS
 
-        raw-loader 将文件以字符串的形式导入
-        
-        thread-loader 多进程打包 JS 和 cSs
+  file-loader 进行图片、字体等的打包
+
+  raw-loader 将文件以字符串的形式导入
+
+  thread-loader 多进程打包 JS 和 cSs
+
+```
 
 3.  核心概念 plugins --增强 webpack 功能
     用于 bundle 打包文件的优化，资源管理和环境变量注入，作用于整个构建过程
 
-    ```
-    plugins:[
-        new HtmlWebpackPlugin(....)
-    ]
-    ```
+```
+plugins:[
+    new HtmlWebpackPlugin(....)
+]
+```
 
-        常见的 Plugins 有哪些?
+常见的 Plugins 有哪些?
 
-        CommonsChunkPlugin    将 chunks 相同的模块代码提取成公共 js
+```
+  CommonsChunkPlugin    将 chunks 相同的模块代码提取成公共 js
 
-        CleanWebpackPlugin    清理构建目录
+  CleanWebpackPlugin    清理构建目录
 
-        ExtractTextWebpackPlugin 将css从 bunlde 文件里提取成一个个个独立的css文件
+  ExtractTextWebpackPlugin 将css从 bunlde 文件里提取成一个个个独立的css文件
 
-        CopyWebpackPlugin    将文件或者文件夹拷贝到构建的输出目录
+  CopyWebpackPlugin    将文件或者文件夹拷贝到构建的输出目录
 
-        HtmlWebpackPlugin    创建 html 文件去承载输出的 bundle
+  HtmlWebpackPlugin    创建 html 文件去承载输出的 bundle
 
-        uglifyjsWebpackPlugin    压缩 JS
+  uglifyjsWebpackPlugin    压缩 JS
 
-        zipWebpackPlugin    将打包出的资源生成一个 zip 包
+  zipWebpackPlugin    将打包出的资源生成一个 zip 包
+```
 
 4.  核心概念 mode --指定当前构建环境 production、development、none 默认 pro
 
-        内置函数功能
+内置函数功能
 
-        1). development 设置process.env . NODE_ENV的值为development .开启NamedchunksPlugin和NamedModulesPlugin
-        
-        2). production 设置process.env.NODE_ENV的值为production .开启FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin和TerserPlugin .
+development 设置 process.env . NODE_ENV 的值为 development .开启 NamedchunksPlugin 和 NamedModulesPlugin
 
-        3). none 不开启任何优化选项
+production 设置 process.env.NODE_ENV 的值为 production .开启 FlagDependencyUsagePlugin , FlagIncludedChunksPlugin ,ModuleconcatenationPlugin , NoEmitOnErrorsPlugin ,occurrenceOrderPlugin , sideEffectsFlagPlugin 和 TerserPlugin .
+
+none 不开启任何优化选项
 
 ## 5. 资源解析
 
-    1. 解析es6   使用babel-loader    babel的配置文件是 .babelrc
+1. 解析 es6 使用 babel-loader babel 的配置文件是 .babelrc
 
-    .babelrc 代码说明如下:
-    ```
-        // presets 是一系列babel plugins的配置集合  一个plugins对应一个功能
-        {
-        "presets": [
-            '@babel/preset-env'  --增加es6的babel preset配置
-        ],
-        "plugins":[
-            "@babel/proposal-class-properties"
-        ]
-        }
+.babelrc 代码说明如下:
 
-    ```
-    那么我们解析es6只安装配置 @babel/preset-env就可以了 ,代码如下
+```
+    // presets 是一系列babel plugins的配置集合  一个plugins对应一个功能
+    {
+    "presets": [
+        '@babel/preset-env'  --增加es6的babel preset配置
+    ],
+    "plugins":[
+        "@babel/proposal-class-properties"
+    ]
+    }
 
-    ```
-    npm i @babel/core @babel/preset-env' babel-loader -D
-    ```
-    安装完成之后需要到webpack.config.js中添加 babel-loader 的配置
+```
 
-    ```
-     module:{
-        rules:[
-           {test:/.js$/,use:'babel-loader'}
-       ]
+那么我们解析 es6 只安装配置 @babel/preset-env 就可以了 ,代码如下
 
+```
+npm i @babel/core @babel/preset-env' babel-loader -D
+```
+
+安装完成之后需要到 webpack.config.js 中添加 babel-loader 的配置
+
+```
+  module:{
+    rules:[
+        {test:/.js$/,use:'babel-loader'}
+    ]
+
+}
+
+```
+
+2.  解析其他资源 比如 vue
+
+```
+
+{
+  presets: [
+  '@vue/app',
+  '@vue/cli-plugin-babel/preset' --这个是脚手架最新的
+  ]
 }
 ```
 
-    2. 解析其他资源 比如vue
+3.  解析样式 css、less、sass
 
+    安装 css-loader、style-loader
 
-    ```
+    css-loader 用于加载.css 文件，并转化成 commonjs 对象
 
-    {
-    presets: [
-    '@vue/app',
-    '@vue/cli-plugin-babel/preset' --这个是脚手架最新的
-    ]
-    }
-    ```
+    style-loader 将样式通过 <style> 标签 插入到 head 中
 
-    3. 解析样式css、less、sass
+```
 
-    安装css-loader、style-loader
-
-    css-loader用于加载.css文件，并转化成commonjs对象
-
-    style-loader将样式通过 <style> 标签 插入到head中
+```
